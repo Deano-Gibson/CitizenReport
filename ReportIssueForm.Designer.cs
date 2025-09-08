@@ -1,4 +1,6 @@
-﻿namespace CitizenReport
+﻿using System;
+
+namespace CitizenReport
 {
     partial class ReportIssueForm
     {
@@ -39,6 +41,8 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.lstAttachments = new System.Windows.Forms.ListBox();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // checkBox1
@@ -149,6 +153,8 @@
             this.lstAttachments.TabIndex = 12;
             this.lstAttachments.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged_1);
             // 
+           
+            // 
             // ReportIssueForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -172,6 +178,21 @@
 
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            //
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         private System.Windows.Forms.CheckBox checkBox1;
@@ -185,5 +206,7 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ListBox lstAttachments;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog2;
     }
 }
