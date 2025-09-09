@@ -1,94 +1,153 @@
-﻿@model ReportIssueViewModel
+﻿@model CitizenReportWeb.Models.ReportIssueViewModel
+@using CitizenReportWeb.Models
 @{
     ViewData["Title"] = "Report Issues";
 }
+
 <div class="container py-5">
     <div class="mb-4 d-flex justify-content-between align-items-center">
-        <a asp-action="Index" class="btn btn-link">&larr; Back</a>
+        <a asp-action="Index" class="btn btn-link px-0">&larr; Back</a>
         <h2 class="m-0">Report Issues</h2>
         <div></div>
     </div>
 
-    <form asp-action="ReportIssues" method="post" enctype="multipart/form-data" novalidate>
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="panel form-card mx-auto">
+        <form asp-action="ReportIssues" method="post" enctype="multipart/form-data" novalidate>
+            @Html.AntiForgeryToken()
 
-        <div class="row g-3">
-            <div class="col-md-6">
-                <label asp-for="Location" class="form-label"></label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-            <div class="col-md-6">
-                <label asp-for="Category" class="form-label"></label>
-                <select asp-for="Category" class="form-select">
-                    <option value="">-- Select category --</option>
-                    @foreach (IssueCategory cat in Enum.GetValues(typeof(IssueCategory)))
-                    {
-                        <option value="@cat">@cat</option>
-                    }
-                </select>
-                <span asp-validation-for="Category" class="text-danger"></span>
-            </div>
-
-            <div class="col-md-8">
-                <label asp-for="Description" class="form-label"></label>
-                <textarea asp-for="Description" rows="6" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-
-            <div class="col-md-4">
-                <label asp-for="Attachments" class="form-label"></label>
-                <input asp-for="Attachments" type="file" multiple class="form-control" />
-                <small class="text-muted">Images or docs (PNG, JPG, PDF, DOCX, TXT)</small>
-            </div>
-
-            <div class="col-12">
-                <div class="progress">
-                    <div id="progressBar" class="progress-bar" style="width:0%">0%</div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Location" class="form-label"></label>
+                    <input asp-for="Location" class="form-control" autocomplete="street-address" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
                 </div>
-                <div id="nudge" class="form-text mt-1">Start by entering the location.</div>
-            </div>
 
-            <div class="col-12 d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
+                <div class="col-md-6">
+                    <label asp-for="Category" class="form-label"></label>
+                    <select asp-for="Category"
+                            asp-items="Html.GetEnumSelectList<IssueCategory>()"
+                            class="form-select">
+                        <option value="">-- Select category --</option>
+                    </select>
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
 
-        @Html.AntiForgeryToken()
-    </form>
+                <div class="col-md-8">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" rows="6" class="form-control" maxlength="1000"></textarea>
+                    <div class="form-text">
+                        <span id="descCount">0</span>/1000 characters
+                    </div>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Attachments" class="form-label"></label>
+                    <input asp-for="Attachments"
+                           type="file"
+                           multiple
+                           class="form-control"
+                           accept="image/*,.pdf,.doc,.docx,.txt" />
+                    <small class="attachments-hint d-block mt-1">
+                        Images or docs (PNG, JPG, PDF, DOCX, TXT). Max 10 MB each.
+                    </small>
+                    <ul id="filesList" class="list-group list-group-flush small mt-2"></ul>
+                </div>
+
+                <!-- Engagement: progress + nudge -->
+                <div class="col-12">
+                    <div class="progress" role="progressbar" aria-label="Form progress" aria-valuemin="0" aria-valuemax="100">
+                        <div id="progressBar" class="progress-bar" style="width:0%">0%</div>
+                    </div>
+                    <div id="nudge" class="form-text mt-1">Start by entering the location.</div>
+                </div>
+
+                <div class="col-12 d-flex justify-content-end">
+                    <button id="submitBtn" type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        const locationInput = document.getElementById("Location");
+        const locationInput  = document.getElementById("Location");
         const categorySelect = document.getElementById("Category");
         const descriptionBox = document.getElementById("Description");
-        const progressBar = document.getElementById("progressBar");
-        const nudge = document.getElementById("nudge");
+        const filesInput     = document.getElementById("Attachments");
+        const progressBar    = document.getElementById("progressBar");
+        const nudge          = document.getElementById("nudge");
+        const descCount      = document.getElementById("descCount");
+        const filesList      = document.getElementById("filesList");
+        const submitBtn      = document.getElementById("submitBtn");
+
+        const MAX_FILE_MB = 10;
 
         function updateProgress() {
             let steps = 0;
             if (locationInput?.value.trim()) steps++;
             if (categorySelect?.value) steps++;
             if (descriptionBox?.value.trim()) steps++;
-            const pct = Math.min(100, steps * 33);
+
+            const pct = Math.min(100, steps * 33); // 0,33,66,99
             progressBar.style.width = pct + "%";
             progressBar.textContent = pct + "%";
+            progressBar.setAttribute("aria-valuenow", pct);
+
             const texts = [
-              "Start by entering the location.",
-              "Great — choose a category next.",
-              "Almost done — add a short description.",
-              "Ready to submit!"
+                "Start by entering the location.",
+                "Great — choose a category next.",
+                "Almost done — add a short description.",
+                "Ready to submit!"
             ];
             nudge.textContent = texts[Math.min(steps, 3)];
+
+            // enable submit when all 3 fields have content
+            submitBtn.disabled = steps < 3;
         }
+
+        function updateDescCount() {
+            const len = (descriptionBox?.value || "").length;
+            descCount.textContent = len;
+        }
+
+        function renderFilesList(files) {
+            filesList.innerHTML = "";
+            Array.from(files || []).forEach(f => {
+                const mb = (f.size / (1024 * 1024)).toFixed(1);
+                const li = document.createElement("li");
+                li.className = "list-group-item d-flex justify-content-between align-items-center";
+                li.textContent = f.name;
+                const badge = document.createElement("span");
+                badge.className = "badge bg-light text-muted";
+                badge.textContent = `${mb} MB`;
+                li.appendChild(badge);
+                if (parseFloat(mb) > MAX_FILE_MB) {
+                    li.classList.add("list-group-item-danger");
+                    const warn = document.createElement("span");
+                    warn.className = "ms-2 text-danger";
+                    warn.textContent = " (too large)";
+                    li.appendChild(warn);
+                }
+                filesList.appendChild(li);
+            });
+        }
+
         ["input","change"].forEach(ev=>{
             locationInput.addEventListener(ev, updateProgress);
             categorySelect.addEventListener(ev, updateProgress);
-            descriptionBox.addEventListener(ev, updateProgress);
+            descriptionBox.addEventListener(ev, () => { updateProgress(); updateDescCount(); });
+            filesInput?.addEventListener("change", (e) => renderFilesList(e.target.files));
         });
+
+        // initial state
         updateProgress();
+        updateDescCount();
     </script>
 }

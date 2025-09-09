@@ -1,3 +1,127 @@
+/* ==== Civic/Gov palette (accessible) ==== */
+:root {
+    --bg: #f6f7fb;
+    --surface: #ffffff;
+    --text: #102a43; /* dark slate */
+    --muted: #6b7280; /* gray-500 */
+    --border: #e5e7eb; /* gray-200 */
+
+    --primary: #0b5cab; /* civic blue */
+    --primary-700: #0a4a8a; /* darker blue */
+    --accent: #f2c94c; /* soft gold */
+
+    --nav-bg: #0a3a6b; /* deep header blue */
+    --nav-text: #eef5ff; /* light text in nav */
+    --footer-bg: #0e1b2b; /* deep slate */
+}
+
+/* keep your base/typography… (unchanged) */
+
+
+/* ===== GOV NAVBAR ===== */
+.gov-navbar {
+    background: var(--nav-bg);
+    border-bottom: 4px solid var(--accent);
+}
+
+    .gov-navbar .navbar-brand.gov-brand {
+        color: #fff;
+        font-weight: 800;
+        letter-spacing: .4px;
+    }
+
+        .gov-navbar .navbar-brand.gov-brand:hover,
+        .gov-navbar .navbar-brand.gov-brand:focus {
+            color: #fff;
+            text-decoration: none;
+        }
+
+    .gov-navbar .nav-link {
+        color: var(--nav-text);
+        opacity: .95;
+        padding: .5rem 1rem;
+        border-radius: 8px;
+    }
+
+        .gov-navbar .nav-link:hover,
+        .gov-navbar .nav-link:focus {
+            color: #fff;
+            background: rgba(255,255,255,.08);
+        }
+
+        .gov-navbar .nav-link.active {
+            color: #fff;
+            background: transparent;
+            box-shadow: inset 0 -3px 0 var(--accent);
+            border-radius: 0;
+        }
+
+    /* center brand & nav nicely */
+    .gov-navbar .navbar-collapse {
+        justify-content: center;
+    }
+
+    .gov-navbar .navbar-toggler {
+        border-color: rgba(255,255,255,.35);
+    }
+
+        .gov-navbar .navbar-toggler .navbar-toggler-icon {
+            filter: invert(1) contrast(200%);
+        }
+
+/* subtle banner under the nav */
+.gov-banner {
+    background: linear-gradient(0deg, rgba(11,60,145,.06), rgba(11,60,145,.06)), var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: .75rem 0;
+    text-align: center;
+}
+
+.gov-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.gov-subtitle {
+    color: var(--muted);
+    font-size: .95rem;
+}
+
+/* ===== BUTTONS (use new primary) ===== */
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+    .btn-primary:hover {
+        background: var(--primary-700);
+        border-color: var(--primary-700);
+    }
+
+/* ===== FOOTER ===== */
+.gov-footer {
+    background: var(--footer-bg);
+    color: #dbe2ee;
+    border-top: 4px solid var(--accent);
+    padding: 1rem 0 1.25rem;
+}
+
+    .gov-footer .footer-link {
+        color: #dbe2ee;
+        text-decoration: none;
+    }
+
+        .gov-footer .footer-link:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+    .gov-footer .small {
+        color: #b9c2cf;
+    }
+
+
+
 /* ===== Theme tokens ===== */
 :root {
     --bg: #f7f8fa;
@@ -226,3 +350,20 @@ footer.border-top {
         border-color: #ddd;
     }
 }
+
+/* card for the form */
+.form-card {
+    max-width: 980px;
+}
+
+/* file list danger state */
+.list-group-item-danger {
+    background: #fff5f5;
+    color: #7f1d1d;
+}
+
+/* tighten the back link */
+a.btn-link {
+    padding-left: 0;
+}
+
