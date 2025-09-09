@@ -16,15 +16,8 @@
 Use GitHub’s *tree* URL format:
 
 ```md
-[[CitizenReportWeb (MVC)](https://github.com/<org>/<repo>/tree/mvc)](https://github.com/Deano-Gibson/CitizenReport/tree/MVC)
-[CitizenReportWinForms]([https://github.com/<org>/<repo>/tree/winform](https://github.com/Deano-Gibson/CitizenReport/tree/winForm)) 
-```
-
-If your README lives **inside** the same repo, you can also use relative links (work on GitHub):
-
-```md
-[Open MVC branch](../../tree/mvc)
-[Open WinForms branch](../../tree/winform)
+CitizenReportWeb (MVC) (https://github.com/Deano-Gibson/CitizenReport/tree/MVC)
+CitizenReportWinForms (https://github.com/Deano-Gibson/CitizenReport/tree/winForm)
 ```
 
 ---
