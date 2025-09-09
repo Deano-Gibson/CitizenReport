@@ -6,19 +6,8 @@
 
 ## Links to branches
 
-> Replace `<org>` and `<repo>` with your GitHub org/user and repository name.
-
-* **MVC branch:** `https://github.com/<org>/<repo>/tree/mvc`
-* **WinForms branch:** `https://github.com/<org>/<repo>/tree/winform`
-
-**How do I link to branches from a README?**
-
-Use GitHub’s *tree* URL format:
-
-```md
-CitizenReportWeb (MVC) (https://github.com/Deano-Gibson/CitizenReport/tree/MVC)
-CitizenReportWinForms (https://github.com/Deano-Gibson/CitizenReport/tree/winForm)
-```
+* **MVC branch:** `https://github.com/Deano-Gibson/CitizenReport/tree/mvc`
+* **WinForms branch:** `https://github.com/Deano-Gibson/CitizenReport/tree/winForm`
 
 ---
 
