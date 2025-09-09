@@ -19,5 +19,5 @@ namespace CitizenReportWeb.Models
 
         [Display(Name = "Attachments")]
         public List<IFormFile>? Attachments { get; set; }
-    }
+    } 
 }
