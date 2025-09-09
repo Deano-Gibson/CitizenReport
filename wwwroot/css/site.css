@@ -120,22 +120,6 @@
         color: #b9c2cf;
     }
 
-
-
-/* ===== Theme tokens ===== */
-:root {
-    --bg: #f7f8fa;
-    --surface: #ffffff;
-    --text: #1f2937; /* gray-800 */
-    --muted: #6b7280; /* gray-500 */
-    --border: #e5e7eb; /* gray-200 */
-    --primary: #2563eb; /* blue-600 */
-    --primary-700: #1d4ed8; /* blue-700 */
-    --success: #16a34a;
-    --danger: #dc2626;
-    --radius: 12px;
-}
-
 /* ===== Base ===== */
 html {
     font-size: 16px;
