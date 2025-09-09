@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Main Menu";
+}
+<div class="container py-5 text-center main-menu">
+    <h1 class="mb-4">Municipal Services – Main Menu</h1>
+
+    @if (TempData["Success"] is string msg)
+    {
+        <div class="alert alert-success" role="alert">@msg</div>
+    }
+
+    <div class="d-grid gap-3 col-6 mx-auto">
+        <a asp-action="ReportIssues" class="btn btn-primary btn-lg">Report Issues</a>
+        <button class="btn btn-outline-secondary btn-lg" disabled>Local Events &amp; Announcements</button>
+        <button class="btn btn-outline-secondary btn-lg" disabled>Service Request Status</button>
+    </div>
+</div>

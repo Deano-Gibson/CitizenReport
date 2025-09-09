@@ -1,0 +1,94 @@
+﻿@model ReportIssueViewModel
+@{
+    ViewData["Title"] = "Report Issues";
+}
+<div class="container py-5">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <a asp-action="Index" class="btn btn-link">&larr; Back</a>
+        <h2 class="m-0">Report Issues</h2>
+        <div></div>
+    </div>
+
+    <form asp-action="ReportIssues" method="post" enctype="multipart/form-data" novalidate>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label asp-for="Location" class="form-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Category" class="form-label"></label>
+                <select asp-for="Category" class="form-select">
+                    <option value="">-- Select category --</option>
+                    @foreach (IssueCategory cat in Enum.GetValues(typeof(IssueCategory)))
+                    {
+                        <option value="@cat">@cat</option>
+                    }
+                </select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-8">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" rows="6" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Attachments" class="form-label"></label>
+                <input asp-for="Attachments" type="file" multiple class="form-control" />
+                <small class="text-muted">Images or docs (PNG, JPG, PDF, DOCX, TXT)</small>
+            </div>
+
+            <div class="col-12">
+                <div class="progress">
+                    <div id="progressBar" class="progress-bar" style="width:0%">0%</div>
+                </div>
+                <div id="nudge" class="form-text mt-1">Start by entering the location.</div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+        @Html.AntiForgeryToken()
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const locationInput = document.getElementById("Location");
+        const categorySelect = document.getElementById("Category");
+        const descriptionBox = document.getElementById("Description");
+        const progressBar = document.getElementById("progressBar");
+        const nudge = document.getElementById("nudge");
+
+        function updateProgress() {
+            let steps = 0;
+            if (locationInput?.value.trim()) steps++;
+            if (categorySelect?.value) steps++;
+            if (descriptionBox?.value.trim()) steps++;
+            const pct = Math.min(100, steps * 33);
+            progressBar.style.width = pct + "%";
+            progressBar.textContent = pct + "%";
+            const texts = [
+              "Start by entering the location.",
+              "Great — choose a category next.",
+              "Almost done — add a short description.",
+              "Ready to submit!"
+            ];
+            nudge.textContent = texts[Math.min(steps, 3)];
+        }
+        ["input","change"].forEach(ev=>{
+            locationInput.addEventListener(ev, updateProgress);
+            categorySelect.addEventListener(ev, updateProgress);
+            descriptionBox.addEventListener(ev, updateProgress);
+        });
+        updateProgress();
+    </script>
+}
