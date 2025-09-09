@@ -1,6 +1,54 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Privacy & Disclaimer";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container py-4">
+    <h1 class="mb-3">@ViewData["Title"]</h1>
+
+    <div class="alert alert-warning">
+        <strong>Important:</strong> This is a <em>student/demo</em> website for learning purposes.
+        It is not an official government service. Reports submitted here will <strong>not</strong>
+        be processed by any municipality.
+    </div>
+
+    <h2 class="h5 mt-4">About this website</h2>
+    <p>
+        <strong>CitizenReport</strong> is a mock municipal services portal used to demonstrate software development concepts.
+        It is not affiliated with any government department or municipality.
+    </p>
+
+    <h2 class="h5 mt-4">What we temporarily store during testing</h2>
+    <ul>
+        <li>Details you enter: <em>Location</em>, <em>Category</em>, and <em>Description</em>.</li>
+        <li>Any files you choose to upload for testing (images/documents).</li>
+    </ul>
+    <p class="small text-muted">
+        In the default development setup, uploaded files are saved to the app’s local
+        <code>wwwroot/uploads</code> folder on the developer’s machine. Do <strong>not</strong> upload
+        personal, confidential, or sensitive information.
+    </p>
+
+    <h2 class="h5 mt-4">Cookies & analytics</h2>
+    <p>
+        This demo does not use tracking cookies or analytics by default. Any telemetry present would be for debugging only.
+    </p>
+
+    <h2 class="h5 mt-4">Data retention</h2>
+    <p>
+        Test data may be deleted at any time and is not backed up. There is no guarantee of availability or retention.
+    </p>
+
+    <h2 class="h5 mt-4">Your choices</h2>
+    <ul>
+        <li>Please don’t submit real personal data.</li>
+        <li>You can ask for test data to be removed from the demo environment at any time.</li>
+    </ul>
+
+    <h2 class="h5 mt-4">Contact</h2>
+    <p>
+        Demo contact: <a href="mailto:deangibson03@gmail.com">deangibson03@gmail.com</a>
+        (replace with your details).
+    </p>
+
+    <p class="small text-muted mt-4">Version: @DateTime.UtcNow.ToString("yyyy-MM-dd")</p>
+</div>
