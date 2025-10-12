@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "Local Events and Announcements";
+}
+
+<div class="container mt-4">
+
+    <a asp-action="Index" class="btn btn-link mb-3">&larr; Back</a>
+
+    <h2 class="text-center mb-4">Local Events and Announcements</h2>
+
+    <form method="get" asp-action="LocalEvents" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search events by name, category, or location..." />
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+    <h4>Upcoming Events</h4>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Event Name</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Events != null && ViewBag.Events.Count > 0)
+            {
+                foreach (var e in ViewBag.Events)
+                {
+                    <tr>
+                        <td>@e.Name</td>
+                        <td>@e.Category</td>
+                        <td>@e.Date.ToShortDateString()</td>
+                        <td>@e.Location</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center text-muted">No events found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h6 class="mt-3 text-muted">
+        Unique event days: @string.Join(", ", ViewBag.UniqueDates ?? new HashSet<DateOnly>())
+    </h6>
+
+    <h4 class="mt-5">Recommended for You</h4>
+    <hr />
+    <ul>
+        @if (ViewBag.Recommendations != null && ViewBag.Recommendations.Count > 0)
+        {
+            foreach (var r in ViewBag.Recommendations)
+            {
+                <li>@r</li>
+            }
+        }
+        else
+        {
+            <li class="text-muted">No recommendations yet. Search to get suggestions.</li>
+        }
+    </ul>
+</div>
