@@ -59,7 +59,13 @@
         {
             foreach (var r in ViewBag.Recommendations)
             {
-                <li>@r</li>
+                // extract keyword for re-searching
+                var keyword = r.Split(' ')[2]; // e.g. "Education" from "Explore more Education events..."
+                <li>
+                    <a asp-action="LocalEvents" asp-route-search="@keyword" class="link-primary">
+                        @r
+                    </a>
+                </li>
             }
         }
         else
@@ -67,4 +73,5 @@
             <li class="text-muted">No recommendations yet. Search to get suggestions.</li>
         }
     </ul>
+
 </div>

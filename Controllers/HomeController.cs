@@ -75,7 +75,11 @@ namespace CitizenReportWeb.Controllers
                 [new DateTime(2025, 10, 15)] = new EventItem("Municipal Cleanup Drive", "Community", "Durban Beach"),
                 [new DateTime(2025, 10, 20)] = new EventItem("Youth Tech Workshop", "Education", "City Library"),
                 [new DateTime(2025, 10, 25)] = new EventItem("Local Arts Festival", "Entertainment", "Town Hall"),
-                [new DateTime(2025, 11, 05)] = new EventItem("Public Safety Forum", "Security", "Civic Center")
+                [new DateTime(2025, 11, 05)] = new EventItem("Public Safety Forum", "Security", "Civic Center"),
+                [new DateTime(2025, 11, 12)] = new EventItem("Health and Wellness Fair", "Health", "Community Center"),
+                [new DateTime(2025, 11, 18)] = new EventItem("Farmers Market Opening", "Market", "Central Park"),
+                [new DateTime(2025, 11, 22)] = new EventItem("Winter Clothing Drive", "Charity", "Downtown Shelter"),
+                [new DateTime(2025, 12, 01)] = new EventItem("Holiday Light Parade", "Celebration", "Main Street"),
             };
 
             // 2. PriorityQueue for "soonest first" ordering
@@ -93,7 +97,8 @@ namespace CitizenReportWeb.Controllers
                 ordered = ordered
                     .Where(e => e.Name.Contains(search, StringComparison.OrdinalIgnoreCase)
                              || e.Category.Contains(search, StringComparison.OrdinalIgnoreCase)
-                             || e.Location.Contains(search, StringComparison.OrdinalIgnoreCase))
+                             || e.Location.Contains(search, StringComparison.OrdinalIgnoreCase)
+                             || e.Date.ToString().Contains(search, StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
                 // Track search term frequency
