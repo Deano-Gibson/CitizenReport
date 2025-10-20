@@ -1,26 +1,58 @@
-@model IEnumerable<Issue>
+@model IEnumerable<CitizenReportWeb.Models.Issue>
+@{
+    ViewData["Title"] = "Service Request Status";
+}
 
-<h2>Service Request Status</h2>
+<div class="container py-5">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <a asp-action="Index" class="btn btn-link px-0">&larr; Back</a>
+        <h2 class="m-0">Service Request Status</h2>
+        <div></div>
+    </div>
 
-<form method="get" asp-action="ServiceRequestStatus">
-    <input type="text" name="searchId" placeholder="Search by ID or keyword" />
-    <button type="submit">Search</button>
-</form>
+    <div class="panel form-card mx-auto">
+        <form method="get" asp-action="ServiceRequestStatus" class="d-flex mb-3">
+            <input type="text" name="searchId" class="form-control me-2" placeholder="Search by ID or keyword" />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
 
-<table>
-    <thead>
-        <tr><th>ID</th><th>Category</th><th>Description</th><th>Status</th><th>Date</th></tr>
-    </thead>
-    <tbody>
-    @foreach (var req in Model)
-    {
-        <tr>
-            <td>@req.Id</td>
-            <td>@req.Category</td>
-            <td>@req.Description</td>
-            <td>@req.Status</td>
-            <td>@req.DateSubmitted.ToShortDateString()</td>
-        </tr>
-    }
-    </tbody>
-</table>
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info mt-3">
+                No service requests found. Submit a report first or adjust your search.
+            </div>
+        }
+        else
+        {
+            <table class="table table-striped align-middle mt-3">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var req in Model)
+                {
+                    <tr>
+                        <td>@req.Id.ToString()[..8]</td>
+                        <td>@req.Category</td>
+                        <td>@req.Description</td>
+                        <td>
+                            <span class="badge bg-@(
+                                req.Status == "Resolved" ? "success" :
+                                req.Status == "In Progress" ? "warning text-dark" :
+                                "secondary"
+                            )">@req.Status</span>
+                        </td>
+                        <td>@req.DateSubmitted.ToShortDateString()</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

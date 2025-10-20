@@ -139,21 +139,25 @@ namespace CitizenReportWeb.Controllers
 
 
         // Service stuff (part 3)
-        public IActionResult ServiceRequestStatus(string searchId)
+        public IActionResult ServiceRequestStatus(string? searchId)
         {
             var requests = IssueStore.GetAllIssues();
 
             if (!string.IsNullOrEmpty(searchId))
+            {
                 requests = requests
-                    .Where(r => r.Id.ToString().Contains(searchId, StringComparison.OrdinalIgnoreCase))
+                    .Where(r =>
+                        r.Id.ToString().Contains(searchId, StringComparison.OrdinalIgnoreCase) ||
+                        r.Description.Contains(searchId, StringComparison.OrdinalIgnoreCase) ||
+                        r.Category.ToString().Contains(searchId, StringComparison.OrdinalIgnoreCase))
                     .ToList();
+            }
 
-            // Data structure example: using Binary Search Tree to organise
+            // Optional: Sort by DateSubmitted using BST
             var tree = new BinarySearchTree<Issue>(requests);
             var sorted = tree.InOrderTraversal();
 
             return View("ServiceRequestStatus", sorted);
         }
-
    }
 }
