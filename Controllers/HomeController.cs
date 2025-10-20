@@ -135,5 +135,25 @@ namespace CitizenReportWeb.Controllers
         }
 
         public IActionResult ServiceStatus() => Content("Service Request Status: coming soon.");
-    }
+
+
+
+        // Service stuff (part 3)
+        public IActionResult ServiceRequestStatus(string searchId)
+        {
+            var requests = IssueStore.GetAllIssues();
+
+            if (!string.IsNullOrEmpty(searchId))
+                requests = requests
+                    .Where(r => r.Id.ToString().Contains(searchId, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+            // Data structure example: using Binary Search Tree to organise
+            var tree = new BinarySearchTree<Issue>(requests);
+            var sorted = tree.InOrderTraversal();
+
+            return View("ServiceRequestStatus", sorted);
+        }
+
+   }
 }
