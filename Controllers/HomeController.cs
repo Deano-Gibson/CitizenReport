@@ -14,7 +14,6 @@ namespace CitizenReportWeb.Controllers
     {
         private readonly IWebHostEnvironment _env;
 
-        // Static structures for demonstration persistence
         private static readonly Dictionary<string, int> _searchStats = new();
 
         public HomeController(IWebHostEnvironment env) => _env = env;
@@ -69,7 +68,6 @@ namespace CitizenReportWeb.Controllers
         [HttpGet]
         public IActionResult LocalEvents(string? search)
         {
-            // 1. SortedDictionary for efficient event storage
             var events = new SortedDictionary<DateTime, EventItem>
             {
                 [new DateTime(2025, 10, 15)] = new EventItem("Municipal Cleanup Drive", "Community", "Durban Beach"),
@@ -82,7 +80,6 @@ namespace CitizenReportWeb.Controllers
                 [new DateTime(2025, 12, 01)] = new EventItem("Holiday Light Parade", "Celebration", "Main Street"),
             };
 
-            // 2. PriorityQueue for "soonest first" ordering
             var pq = new PriorityQueue<EventItem, DateTime>();
             foreach (var kv in events)
                 pq.Enqueue(kv.Value, kv.Key);
@@ -91,7 +88,6 @@ namespace CitizenReportWeb.Controllers
             while (pq.TryDequeue(out var item, out _))
                 ordered.Add(item);
 
-            // 3. Filter based on user search
             if (!string.IsNullOrEmpty(search))
             {
                 ordered = ordered
@@ -101,17 +97,14 @@ namespace CitizenReportWeb.Controllers
                              || e.Date.ToString().Contains(search, StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
-                // Track search term frequency
                 _searchStats[search] = _searchStats.ContainsKey(search)
                     ? _searchStats[search] + 1
                     : 1;
             }
 
-            // 4. HashSet for unique categories and dates
             var categories = new HashSet<string>(ordered.Select(e => e.Category));
             var uniqueDates = new HashSet<DateOnly>(ordered.Select(e => DateOnly.FromDateTime(e.Date)));
 
-            // 5. Recommendation engine (based on categories + top search terms)
             var recommendations = new List<string>();
             recommendations.AddRange(categories.Select(c => $"Explore more {c} events in your area!"));
 
@@ -121,24 +114,20 @@ namespace CitizenReportWeb.Controllers
                 .Select(k => $"Because you searched '{k.Key}' often, check related events!");
             recommendations.AddRange(topSearches);
 
-            // Pass data to view
             ViewBag.Events = ordered;
             ViewBag.UniqueDates = uniqueDates;
             ViewBag.Recommendations = recommendations;
             return View();
         }
 
-        // Record model for event data
         public record EventItem(string Name, string Category, string Location)
         {
             public DateTime Date { get; set; } = DateTime.Now.AddDays(new Random().Next(1, 20));
         }
 
-        public IActionResult ServiceStatus() => Content("Service Request Status: coming soon.");
-
-
-
-        // Service stuff (part 3)
+        // ----------------------------
+        // Service Request Status
+        // ----------------------------
         public IActionResult ServiceRequestStatus(string? searchId)
         {
             var requests = IssueStore.GetAllIssues();
@@ -153,11 +142,28 @@ namespace CitizenReportWeb.Controllers
                     .ToList();
             }
 
-            // Optional: Sort by DateSubmitted using BST
+            // --- Use Binary Search Tree to sort chronologically ---
             var tree = new BinarySearchTree<Issue>(requests);
             var sorted = tree.InOrderTraversal();
 
+            // --- Internal logic using Graph + MinHeap (not displayed) ---
+            var graph = new Graph<string>();
+            graph.AddEdge("Water", "Sanitation");
+            graph.AddEdge("Sanitation", "Waste");
+            graph.AddEdge("Electricity", "Infrastructure");
+            graph.AddEdge("Infrastructure", "Roads");
+            var related = graph.BreadthFirstSearch("Sanitation"); // for backend traversal test
+
+            var heap = new MinHeap<(int priority, string category, string desc)>();
+            foreach (var issue in sorted)
+            {
+                int priority = issue.Category.ToString().Contains("Water") ? 1 :
+                            issue.Category.ToString().Contains("Power") ? 2 : 3;
+                heap.Insert((priority, issue.Category.ToString(), issue.Description));
+            }
+            _ = heap.ToList(); // executes for data ordering logic
+
             return View("ServiceRequestStatus", sorted);
         }
-   }
+    }
 }

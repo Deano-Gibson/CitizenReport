@@ -24,35 +24,39 @@
         }
         else
         {
-            <table class="table table-striped align-middle mt-3">
-                <thead class="table-light">
-                    <tr>
-                        <th>ID</th>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach (var req in Model)
-                {
-                    <tr>
-                        <td>@req.Id.ToString()[..8]</td>
-                        <td>@req.Category</td>
-                        <td>@req.Description</td>
-                        <td>
-                            <span class="badge bg-@(
-                                req.Status == "Resolved" ? "success" :
-                                req.Status == "In Progress" ? "warning text-dark" :
-                                "secondary"
-                            )">@req.Status</span>
-                        </td>
-                        <td>@req.DateSubmitted.ToShortDateString()</td>
-                    </tr>
-                }
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped align-middle mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var req in Model)
+                        {
+                            <tr>
+                                <td>@req.Id.ToString()[..8]</td>
+                                <td>@req.Category</td>
+                                <td>@req.Description</td>
+                                <td>
+                                    <span class="badge bg-@(
+                                        req.Status == "Resolved" ? "success" :
+                                        req.Status == "In Progress" ? "warning text-dark" :
+                                        "secondary"
+                                    )">@req.Status</span>
+                                </td>
+                                <td>@req.DateSubmitted.ToShortDateString()</td>
+                                <td>@req.Location</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
     </div>
 </div>
