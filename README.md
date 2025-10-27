@@ -1,85 +1,154 @@
-# CitizenReport — Quick Start (Main Branch / MVC‑focused)
+# ⚙️ CitizenReport — Quick Start (Main Branch / MVC-Focused)
 
-> **Important:** This repo contains **two** implementations (MVC and WinForms). The PoE requires WinForms, but presentation guidelines allow freedom. **If either is acceptable, please mark the *MVC* version. Thank you!**
-
----
-
-## Links to branches
-
-* **MVC branch:** `https://github.com/Deano-Gibson/CitizenReport/tree/mvc`
-* **WinForms branch:** `https://github.com/Deano-Gibson/CitizenReport/tree/winForm`
+> **Important:** This repository contains **two project implementations**:
+>
+> 1. **MVC (ASP.NET Core)** — the modern, structured web version (preferred for marking)
+> 2. **WinForms (C# Desktop)** — the original prototype version (decommissioned)
+>
+> The MVC version is the focus of the final PoE submission. If both qualify, please **mark the MVC version**.
 
 ---
 
-## What’s on this branch (main)
+## 📂 Repository Overview
 
-* A short **landing README** with links to the active branches.
-* **MVC is the default** target for marking.
+| Branch                                                                  | Description                                       |
+| ----------------------------------------------------------------------- | ------------------------------------------------- |
+| [`mvc`](https://github.com/Deano-Gibson/CitizenReport/tree/mvc)         | ASP.NET MVC Web Application (current, maintained) |
+| [`winform`](https://github.com/Deano-Gibson/CitizenReport/tree/winForm) | Windows Forms version (deprecated)                |
 
 ---
 
-## MVC — Quick Start
+## 🌐 MVC — Quick Start
 
-### Prerequisites
+### 🧰 Prerequisites
 
-* .NET **8** SDK
-* Visual Studio 2022 / VS Code / Rider
+* .NET **8 SDK** or later
+* Visual Studio 2022 / VS Code / JetBrains Rider
+* Git installed
 
-### Run (Visual Studio)
+### ▶️ Run using Visual Studio
 
-1. Checkout the MVC branch: `git checkout mvc`
-2. Set **CitizenReportWeb** as *Startup Project*.
-3. **Build** → *Run (F5)*.
-4. Navigate to **Home → Report Issues**.
+1. Clone the repository:
 
-### Run (CLI)
+   ```bash
+   git clone https://github.com/Deano-Gibson/CitizenReport.git
+   ```
+2. Checkout the MVC branch:
+
+   ```bash
+   git checkout mvc
+   ```
+3. Open **CitizenReportWeb.sln**
+4. Set `CitizenReportWeb` as the **Startup Project**
+5. Click **Run (F5)** or use `Ctrl+F5`
+6. Navigate to:
+
+   ```
+   https://localhost:7001
+   ```
+7. Explore pages:
+
+   * **Home:** Project introduction
+   * **Report Issues:** Submit a municipal report with category and attachments
+   * **Local Events:** Browse and filter upcoming community events
+   * **Service Request Status:** Track issues (uses data structures internally)
+
+### ▶️ Run using CLI
 
 ```bash
 git checkout mvc
 cd CitizenReportWeb
 dotnet restore
 dotnet run
-# open the printed URL (e.g., https://localhost:7001)
+# Open printed localhost URL (example: https://localhost:7001)
 ```
 
-### Where uploads go
+### 📁 File Uploads
 
-* Files are saved to `wwwroot/uploads/` during testing (demo data only).
+Attachments are stored in:
 
----
+```
+CitizenReportWeb/wwwroot/uploads/
+```
 
-## WinForms — Quick Start (if needed)
-
-1. Checkout the WinForms branch: `git checkout winform`
-2. Open `CitizenReportWinForms.sln` in Visual Studio.
-3. Set **CitizenReportWinForms** as *Startup Project* → Run (F5).
+(Used for local testing only — no external data transfer.)
 
 ---
 
-## Notes for Markers
+## 💻 WinForms — Quick Start (Legacy Version)
 
-* Only **Report Issues** is fully implemented in Part‑1.
-* **Local Events** and **Service Status** are visible but disabled as specified.
-* MVC includes a civic theme, inline progress/nudges, validation, and attachment uploads.
+If required for comparison or verification:
+
+1. Checkout the WinForms branch:
+
+   ```bash
+   git checkout winform
+   ```
+2. Open `CitizenReportWinForms.sln`
+3. Set **CitizenReportWinForms** as the startup project
+4. Build and run the application (F5)
+
+**Note:**
+
+* The WinForms version implements only the base reporting and event listing logic.
+* It lacks web-based improvements and modern UI consistency.
 
 ---
 
-## Git commands (handy)
+## 🧩 Features Summary (MVC)
+
+| Feature         | Description                                    | Data Structure                                 |
+| --------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Report Issues   | Capture location, description, and attachments | `Dictionary`, `List`                           |
+| Local Events    | Filter events by date, location, or category   | `SortedDictionary`, `PriorityQueue`, `HashSet` |
+| Service Status  | View and search submitted reports              | `BinarySearchTree`, `Graph`, `MinHeap`         |
+| Recommendations | Suggest related events                         | `HashSet`, `Dictionary`                        |
+
+---
+
+## 🧠 About the Project
+
+**CitizenReport** is a learning-focused municipal services app that simulates how residents can:
+
+* Report issues like water leaks or power faults
+* View local municipal events
+* Track service request progress and prioritisation
+
+The app demonstrates data-driven design, algorithmic efficiency, and responsive UI principles.
+
+---
+
+## 🧾 Disclaimer
+
+This system is for **academic and demonstration purposes only**. It does **not** connect to real municipal servers or process actual reports.
+
+Developed by **Dean Gibson (ST10326084)** for **PROG7312 / PROG7311 — Municipal Services Application (POE Part 3)** at **Varsity College, 2025**.
+
+---
+
+## 🧮 Helpful Git Commands
 
 ```bash
-# list branches
+# List all branches
 git branch -a
 
-# create local tracking branches if needed
+# Create local tracking branches if needed
 git checkout -b mvc origin/mvc
 git checkout -b winform origin/winform
 
-# switch
+# Switch between versions
 git checkout mvc
 ```
 
 ---
 
-## Disclaimer
+## 📚 Related Files in Repository
 
-This is a **mock/student** municipal services site for learning; it is not affiliated with any government entity and does not process real requests.
+| File                           | Purpose                                          |
+| ------------------------------ | ------------------------------------------------ |
+| `README.md`                    | Main landing file (this one)                     |
+| `DATA_STRUCTURES.md`           | Explanation of Graph, Heap, and Tree logic       |
+| `ImplementationReport.md`      | Technical breakdown and test notes               |
+| `ProjectCompletionReport.md`   | Challenges, learnings, and reflections           |
+| `TechnologyRecommendations.md` | Future improvement suggestions                   |
+| `CHANGELOG.md`                 | Updates based on feedback from Part 1 and Part 2 |
