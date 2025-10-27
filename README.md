@@ -1,31 +1,31 @@
-# CitizenReport — Quick Start
+# ⚙️ CitizenReport — Quick Start (MVC Branch)
 
-> **Important:** This repo contains both an MVC and a Winform application. This is due to the POE requiring winform, but the powerpoint allowing freedom. If either is allowed Please mark the **MVC** version. Thank You!
-
----
-
-## 1) Prerequisites
-
-* **WinForms:** Windows 10/11, Visual Studio 2019/2022, **.NET Framework 4.8** (or 4.7.2+).
-* **MVC:** .NET **8** SDK, Visual Studio 2022 / VS Code / Rider, modern browser.
+> **Important:** This repository documents the **MVC (ASP.NET Core)** version of CitizenReport, the preferred implementation for marking and final submission.
 
 ---
 
-## 2) Open the Projects
+## 🧰 1) Prerequisites
 
-* **WinForms:** Open `CitizenReportWinForms.sln` in Visual Studio.
-* **MVC:** Open the solution containing `CitizenReportWeb` (or open `CitizenReportWeb.csproj`).
+* .NET 8 SDK (or later)
+* Visual Studio 2022 / VS Code / JetBrains Rider
+* Modern web browser (Edge, Chrome, Firefox)
 
 ---
 
-## 3) Build / Compile
+## 📂 2) Open the Project
 
-**Visual Studio**
+Open the solution containing `CitizenReportWeb`, or directly open `CitizenReportWeb.csproj` in Visual Studio.
 
-* Set the desired project as **Startup Project** (right‑click → *Set as StartUp Project*).
-* **Build** → *Build Solution* (Ctrl+Shift+B).
+---
 
-**CLI (MVC only)**
+## 🏗️ 3) Build / Compile
+
+### Visual Studio
+
+1. Set **CitizenReportWeb** as the **Startup Project** (right-click → *Set as StartUp Project*).
+2. Go to **Build → Build Solution** (`Ctrl+Shift+B`).
+
+### Command Line
 
 ```bash
 cd CitizenReportWeb
@@ -35,29 +35,32 @@ dotnet build
 
 ---
 
-## 4) Run
+## ▶️ 4) Run
 
-**WinForms (VS):** *Debug* → *Start Debugging* (F5).
+### Visual Studio
 
-**MVC (VS):** *Debug* → *Start Debugging* (F5).
+> **Debug → Start Debugging (F5)**
 
-**MVC (CLI):**
+### Command Line
 
 ```bash
 cd CitizenReportWeb
 dotnet run
-# open the printed URL (e.g., https://localhost:7001)
+# open the printed URL (e.g. https://localhost:7001)
 ```
 
 ---
 
-## 5) Use the Software
+## 💡 5) Use the Software
 
-* **Main Menu:** Three options are shown; only **Report Issues** is enabled (per Part‑1 spec).
-* **Report Issues:** Enter *Location*, choose *Category*, add a brief *Description* and optional *Attachments*, then **Submit**.
-* **Feedback:** A success message with a short reference ID confirms capture.
+* **Main Menu:** Displays three buttons — *Report Issues*, *Local Events*, and *Service Status*.
+* **Report Issues:** Fill in *Location*, select *Category*, add a *Description* and optional *Attachments*, then click **Submit**.
+* **Feedback:** A confirmation message appears with a generated short reference ID.
 
-> **Note:** MVC uploads are saved to `wwwroot/uploads/`. In Part‑1 both apps use in‑memory lists for issues (no DB).
+> **Note:** Attachments are stored under `wwwroot/uploads/`. The app uses in-memory lists for demonstration purposes (no database persistence).
 
 ---
 
+**Developer:** Dean Gibson (ST10326084)
+**Module:** PROG7312 / PROG7311 — Municipal Services Application
+**Institution:** Varsity College, 2025
