@@ -1,7 +1,5 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+# .github/workflows/dotnet-mvc.yml
+name: Build MVC
 
 on:
   push:
@@ -10,19 +8,42 @@ on:
     branches: [ "MVC" ]
 
 jobs:
-  build:
-
+  build-mvc:
     runs-on: ubuntu-latest
 
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      # Build only the ASP.NET Core MVC project
+      - name: Restore (MVC)
+        run: dotnet restore ./CitizenReportWeb/CitizenReportWeb.csproj
+
+      - name: Build (MVC)
+        run: dotnet build ./CitizenReportWeb/CitizenReportWeb.csproj -c Release --no-restore
+
+      # Run tests only if test projects exist
+      - name: Test (if any)
+        shell: bash
+        run: |
+          if ls **/*Tests.csproj **/*Test.csproj 1>/dev/null 2>&1; then
+            dotnet test -c Release --no-build
+          else
+            echo "No test projects found. Skipping."
+          fi
+
+      - name: Publish artifact
+        run: dotnet publish ./CitizenReportWeb/CitizenReportWeb.csproj -c Release -o ./artifacts --no-build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CitizenReportWeb
+          path: artifacts
