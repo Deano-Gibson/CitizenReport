@@ -4,6 +4,12 @@
 
 ---
 
+## Contributors
+
+* **DEAN GIBSON ST10326084**
+
+---
+
 ## 🧰 1) Prerequisites
 
 * **.NET 8 SDK** or later
