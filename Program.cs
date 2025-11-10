@@ -1,5 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
+
+// MVC
 builder.Services.AddControllersWithViews();
+
+// Session (in-memory store)
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;   // required for GDPR scenarios
+});
 
 var app = builder.Build();
 
@@ -14,8 +24,13 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();          // required for wwwroot/css, js, etc.
+app.UseStaticFiles();
+
 app.UseRouting();
+
+// must be before Authorization and endpoint mapping
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
